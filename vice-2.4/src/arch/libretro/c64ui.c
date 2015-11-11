@@ -38,6 +38,8 @@
 
 #include <stdarg.h>
 
+int retro_ui_finalized = 0;
+
 int display_setting(int hwscale, int old_width)
 {
 return 0;
@@ -62,6 +64,17 @@ void write_snapshot(WORD unused_addr, void *filename)
 {
     machine_write_snapshot((char *)filename, 1, 1, 0);
 }
+
+int get_drive_type(int drive,int val)
+{
+	return	resources_get_int_sprintf("Drive%iType",drive);
+}
+
+void set_drive_type(int drive,int val)
+{
+	   if(retro_ui_finalized== 1)resources_set_int_sprintf("Drive%iType", val, drive);
+}
+
 #if 0
 #define C64KB_HEIGHT 8
 char *keyb_c64vic[] = {
@@ -190,7 +203,7 @@ void c64ui_set_keyarr(int status)
 int c64ui_init(void)
 {
     machine_ui_done = 1;
-
+    retro_ui_finalized = 1;
     return 0;
 }
 

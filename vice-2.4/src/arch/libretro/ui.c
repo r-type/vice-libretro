@@ -26,8 +26,14 @@
 
 #include "vice.h"
 #include "machine.h"
+#include "cmdline.h"
+
 #include <stdio.h>
 #include <string.h>
+
+static const cmdline_option_t cmdline_options[] = {
+     { NULL }
+};
 
 /* Initialization  */
 int ui_resources_init(void)

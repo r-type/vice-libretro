@@ -20,6 +20,7 @@ extern short signed int SNDBUF[1024*2];
 extern char RPATH[512];
 extern char RETRO_DIR[512];
 extern int vice_statusbar;
+extern void set_drive_type(int drive,int val);
 
 #include "cmdline.c"
 
@@ -54,6 +55,10 @@ void retro_set_environment(retro_environment_t cb)
       {
          "Statusbar",
          "Status Bar; disabled|enabled",
+      },
+      {
+         "vice_Drive8Type",
+         "Drive8Type; 1540|1541|1542|1551|1570|1571|1573|1581|2000|4000|2031|2040|3040|4040|1001|8050|8250",
       },
       { NULL, NULL },
    };
@@ -113,6 +118,17 @@ static void update_variables(void)
    else
       vice_statusbar=0;
 
+   var.key = "vice_Drive8Type";
+   var.value = NULL;
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      char str[100];
+	  int val;
+      snprintf(str, sizeof(str), var.value);
+      val = strtoul(str, NULL, 0);
+	  set_drive_type(8, val);
+   }
 }
 
 static void retro_wrap_emulator()
