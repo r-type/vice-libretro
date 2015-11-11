@@ -87,8 +87,11 @@ static void cmdline_free_startup_images(void)
 static int cmdline_help(const char *param, void *extra_param)
 {
     cmdline_show_help(NULL);
-    exit(0);
 
+#ifndef __LIBRETRO__
+//retro fix atexit in other thread
+    exit(0);
+#endif
     return 0;   /* OSF1 cc complains */
 }
 
@@ -101,8 +104,10 @@ static int cmdline_features(const char *param, void *extra_param)
         printf("%-25s %4s %s\n", list->symbol, list->isdefined ? "yes " : "no  ", list->descr);
         ++list;
     }
-
+#ifndef __LIBRETRO__
+//retro fix atexit in other thread
     exit(0);
+#endif
     return 0;   /* OSF1 cc complains */
 }
 
@@ -304,9 +309,9 @@ int initcmdline_init(void)
             return -1;
         }
     }
-
+#ifdef __LIBRETRO__
     atexit(cmdline_free_startup_images);
-
+#endif
     return 0;
 }
 

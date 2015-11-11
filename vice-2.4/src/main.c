@@ -80,6 +80,10 @@
 #define DBG(x)
 #endif
 
+#ifdef __LIBRETRO__
+#include "libretro-core.h"
+#endif
+
 #ifdef __OS2__
 const
 #endif
@@ -137,10 +141,13 @@ int main_program(int argc, char **argv)
         return -1;
     }
 
+#ifndef __LIBRETRO__
+//retro fix atexit in other thread
     if (atexit(main_exit) < 0) {
         archdep_startup_log_error("atexit failed.\n");
         return -1;
     }
+#endif
 
     maincpu_early_init();
     machine_setup_context();
@@ -268,7 +275,12 @@ int main_program(int argc, char **argv)
     initcmdline_check_attach();
 
     init_done = 1;
-
+#ifdef __LIBRETRO__
+#ifndef NO_LIBCO
+	resources_save("./vicerc0");
+	co_switch(mainThread);
+#endif
+#endif
     /* Let's go...  */
     log_message(LOG_DEFAULT, "Main CPU: starting at ($FFFC).");
     maincpu_mainloop();

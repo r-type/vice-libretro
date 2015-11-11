@@ -166,7 +166,17 @@ void rawimage_resources_shutdown(void)
 }
 
 /*-----------------------------------------------------------------------*/
-
+#ifdef __LIBRETRO__
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-rawdrive", SET_RESOURCE, 1,
+      NULL, NULL, "RawDriveDriver", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_DISABLE_HIRES_EMULATION_BOARD_TR+1,
+      NULL, NULL },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] =
 {
     { "-rawdrive", SET_RESOURCE, 1,
@@ -176,7 +186,7 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { NULL }
 };
-
+#endif
 int rawimage_cmdline_options_init()
 {
     if (cmdline_register_options(cmdline_options) < 0) {

@@ -215,7 +215,9 @@ extern int sound_init_iff_device(void);
 extern int sound_init_aiff_device(void);
 extern int sound_init_mp3_device(void);
 extern int sound_init_pulse_device(void);
-
+#ifdef __LIBRETRO__
+extern int sound_init_retro_device(void);
+#endif
 /* internal function for sound device registration */
 extern int sound_register_device(sound_device_t *pdevice);
 
