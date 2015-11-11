@@ -1,10 +1,10 @@
 Vice 2.4.20 LIBRETRO WIP
 
-Very WIP port VICE 2.4.20 for libretro using libco.
-with minimal Libretro arch port (no gui) 
+Very WIP port of VICE 2.4.20 for libretro (using libco).
+minimal Libretro arch port (no gui) 
 
  
-Source base is old VICE 2.4.20 official source: 
+Source base: 
 http://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/v2.4/v2.4.20/
 
 
@@ -29,7 +29,19 @@ VICE is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY
 
 --------------------------------------------------------------------------------------------------------------
 
-Build:
+
+Use it at you own risk !
+
+
+Supported platforms : Linux Android
+
+EMUTYPE is limited to : x64 (default) x64sc x64dtv x128
+
+LIBDIR set to /mnt/srdcard/data for Android
+and (retro_system_dir)/data for linux
+ 
+Android Build:
 
 make -f Makefile.libretro EMUTYPE=x64sc platform=android
+
 
