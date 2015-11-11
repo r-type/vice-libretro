@@ -52,3 +52,61 @@ int ui_init(void)
 void ui_shutdown(void)
 {
 }
+
+void ui_check_mouse_cursor(void)
+{
+    /* needed */
+}
+
+void ui_error(const char *format, ...)
+{
+
+   	char text[512];	   	
+   	va_list	ap;	
+
+   	if (format == NULL)return;		
+		
+   	va_start(ap,format );		
+      		vsprintf(text, format, ap);	
+   	va_end(ap);	
+    fprintf(stderr, "ui_error: %s\n", text);
+}
+
+/* Update all the menus according to the current settings.  */
+
+void ui_update_menus(void)
+{
+}
+
+int ui_extend_image_dialog()
+{
+  return 0;
+}
+
+void ui_dispatch_events()
+{
+}
+
+int ui_cmdline_options_init(void)
+{
+  return cmdline_register_options(cmdline_options);
+}
+
+int ui_init_finish()
+{
+  return 0;
+}
+
+int ui_init_finalize()
+{
+  resources_set_int( "SDLStatusbar", 1);
+  return 0;
+}
+
+char* ui_get_file(const char *format,...)
+{
+    return NULL;
+}
+
+
+

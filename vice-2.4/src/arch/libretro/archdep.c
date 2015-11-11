@@ -627,3 +627,14 @@ void kbd_arch_init()
 {
   keyboard_clear_keymatrix();
 }
+
+char *archdep_get_runtime_os(void)
+{
+    return "*nix";
+}
+
+char *archdep_get_runtime_cpu(void)
+{
+    return "Unknown CPU";
+}
+

@@ -30,6 +30,12 @@ static int drive_led_on = 0, tape_led_on = 0;
 static const cmdline_option_t cmdline_options[] = {
      { NULL }
 };
+
+int video_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
 int video_arch_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
@@ -146,11 +152,6 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 	RCANVAS=canvas;
 }
 
-void retro_ui_init_finalize(void)
-{
- 	resources_set_int( "SDLStatusbar", 1);
-}
-
 int video_init()
 {
   return 0;
@@ -169,10 +170,8 @@ void video_arch_resources_shutdown()
 {
 
 }
-/*
-//TEST
-void ui_display_tape_motor_status(int motor)
+
+void fullscreen_capability()
 {
-  tape_led_on = motor;
 }
-*/
+
