@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 
 static const cmdline_option_t cmdline_options[] = {
      { NULL }
