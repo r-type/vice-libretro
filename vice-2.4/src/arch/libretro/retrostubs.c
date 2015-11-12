@@ -1,6 +1,7 @@
 #include "libretro.h"
 #include "joystick.h"
 #include "keyboard.h"
+#include "machine.h"
 #include "libretro-core.h"
 #include "vkbd_def.h"
 
@@ -24,6 +25,12 @@ unsigned int cur_port = 2;
 bool num_locked = false;
 
 #define MATRIX(a,b) (((a) << 3) | (b))
+
+void quick_load()
+{
+	DlgFloppy_Main();
+	pauseg=0;
+}
 
 #if 0
 static void sdl_vkbd_key_press(int value, int shift)
@@ -254,35 +261,39 @@ void Keymap_KeyDown(int symkey,uint8 *key_matrix, uint8 *rev_matrix, uint8 *joys
 {
 
 	switch (symkey){
+
+		case RETROK_F9:	// F9: Quick Drive file select
+			pauseg=2;
+			break;
+		case RETROK_F10:	// F10: 
+
+			break;
+
 /*
-		case RETROK_F9:	// F9: Invoke SAM
-			SAM(TheC64);
-			break;
-		case RETROK_F10:	// F10: Quit
-			quit_requested = true;
-			break;
-		case RETROK_F11:	// F11: NMI (Restore)
-			TheC64->NMI();
-			break;
-		case RETROK_F12:	// F12: Reset
-			TheC64->Reset();
+//FIXME detect retroarch hotkey
+		case RETROK_F11:	// F11:
 			break;
 */
+		case RETROK_F12:	// F12: Reset
+			machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+			break;
+
 		case RETROK_NUMLOCK:
 			num_locked = true;
 			break;
-/*
-		case RETROK_KP_PLUS:	// '+' on keypad: Increase SkipFrames
-			ThePrefs.SkipFrames++;
+
+		case RETROK_KP_PLUS:	// '+' on keypad: FLip List NEXT
+			//flilist next
+			fliplist_attach_head(8, 1);
 			break;
-		case RETROK_KP_MINUS:	// '-' on keypad: Decrease SkipFrames
-			if (ThePrefs.SkipFrames > 1)
-				ThePrefs.SkipFrames--;
+		case RETROK_KP_MINUS:	// '-' on keypad: FLip List PREV
+			//flilist prev
+			fliplist_attach_head(8, 0);
 			break;
-		case RETROK_KP_MULTIPLY:	// '*' on keypad: Toggle speed limiter
-			ThePrefs.LimitSpeed = !ThePrefs.LimitSpeed;
+		case RETROK_KP_MULTIPLY:	// '*' on keypad: toggle current joy port
+		    cur_port++;
+			if(cur_port>2)cur_port=1;
 			break;
-*/
 		case RETROK_KP_DIVIDE:	// '/' on keypad: Toggle GUI 
 			pauseg=1;
 			break;

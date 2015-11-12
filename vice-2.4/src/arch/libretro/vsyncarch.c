@@ -110,6 +110,7 @@ void vsyncarch_presync(void)
     }
 
 	if(pauseg==1)pause_select();
+	if(pauseg==2)quick_load();
 
 #ifndef NO_LIBCO
 	co_switch(mainThread);
