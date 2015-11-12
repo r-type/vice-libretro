@@ -75,6 +75,12 @@ void set_drive_type(int drive,int val)
 	   if(retro_ui_finalized== 1)resources_set_int_sprintf("Drive%iType", val, drive);
 }
 
+void set_truedrive_emultion(int val)
+{
+	   if(retro_ui_finalized== 1)
+		resources_set_int("DriveTrueEmulation", val);
+}
+
 #if 0
 #define C64KB_HEIGHT 8
 char *keyb_c64vic[] = {

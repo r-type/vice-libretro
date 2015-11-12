@@ -21,6 +21,7 @@ extern char RPATH[512];
 extern char RETRO_DIR[512];
 extern int vice_statusbar;
 extern void set_drive_type(int drive,int val);
+extern void set_truedrive_emultion(int val);
 
 #include "cmdline.c"
 
@@ -59,6 +60,10 @@ void retro_set_environment(retro_environment_t cb)
       {
          "vice_Drive8Type",
          "Drive8Type; 1540|1541|1542|1551|1570|1571|1573|1581|2000|4000|2031|2040|3040|4040|1001|8050|8250",
+      },
+      {
+         "vice_DriveTrueEmulation",
+         "DriveTrueEmulation; disabled|enabled",
       },
       { NULL, NULL },
    };
@@ -129,6 +134,18 @@ static void update_variables(void)
       val = strtoul(str, NULL, 0);
 	  set_drive_type(8, val);
    }
+
+   var.key = "vice_DriveTrueEmulation";
+   var.value = NULL;
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (strcmp(var.value, "enabled") == 0)
+         set_truedrive_emultion(1);
+      if (strcmp(var.value, "disabled") == 0)
+         set_truedrive_emultion(0);
+   }
+
 }
 
 static void retro_wrap_emulator()
