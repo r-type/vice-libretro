@@ -216,6 +216,7 @@ void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_
 
 void ui_display_drive_current_image(unsigned int drive_number, const char *image)
 {
+printf("d%d -> %s\n",drive_number, image);
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif

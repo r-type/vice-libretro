@@ -60,7 +60,7 @@ char szDiskImageDirectory[FILENAME_MAX]={'\0'};
 #define FLOPPYDLG_DISK3       17
 #define FLOPPYDLG_IMGDIR      19
 #define FLOPPYDLG_BROWSEIMG   20
-#define FLOPPYDLG_AUTOSTART   22
+#define FLOPPYDLG_ATTACH2FLIPLIST   22
 #define FLOPPYDLG_EXIT        23
 
 
@@ -92,7 +92,7 @@ static SGOBJ floppydlg[] =
 	{ SGBUTTON,  SG_EXIT/*0*/, 0, 54,14, 8,1, "Browse" },
 
 	{ SGTEXT, 0, 0, 3,16, 58,1, NULL },	
-	{ SGCHECKBOX, 0, 0, 3,17, 15,1, "AutoStart?" },
+	{ SGCHECKBOX, 0, 0, 3,17, 25,1, "Attach to Fliplist" },
 	{ SGBUTTON, SG_EXIT/*SG_DEFAULT*/, 0, 22,18, 24,1, "Back to main menu" },
 	{ -1, 0, 0, 0,0, 0,0, NULL }
 };
@@ -302,7 +302,7 @@ void DlgFloppy_Main(void)
 	/* Set up dialog to actual values: */
  const char *name;
 
- floppydlg[FLOPPYDLG_AUTOSTART].state &= ~SG_SELECTED;
+ floppydlg[FLOPPYDLG_ATTACH2FLIPLIST].state &= ~SG_SELECTED;
 
  name = file_system_get_disk_name(8); /* Filename */
  if (!name)dlgname[0][0] = '\0';
@@ -368,15 +368,15 @@ void DlgFloppy_Main(void)
 						resources_set_int_sprintf("Drive%iType", 1542,  GET_DRIVE(8));
 */			
 
-				if (floppydlg[FLOPPYDLG_AUTOSTART].state & SG_SELECTED){
+				if (floppydlg[FLOPPYDLG_ATTACH2FLIPLIST].state & SG_SELECTED){
 					file_system_detach_disk(GET_DRIVE(8));
-					printf("autostart\n");				
-					autostart_autodetect(szDiskFileName[0], NULL, 0, AUTOSTART_MODE_RUN);
+					printf("Attach to flip list\n");
+					file_system_attach_disk(8, szDiskFileName[0]);
+					fliplist_add_image(8)	;
 				}
 				else {
-					//fixme:why reset ?
-					printf("no autostart\n");
-					file_system_attach_disk(8, szDiskFileName[0]);
+					printf("autostart\n");
+					autostart_autodetect(szDiskFileName[0], NULL, 0, AUTOSTART_MODE_RUN);
 				}
 
 			}
