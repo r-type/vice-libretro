@@ -107,6 +107,11 @@ int ui_init_finish()
 int ui_init_finalize()
 {
   resources_set_int( "SDLStatusbar", 1);
+
+  resources_set_int( "Mouse", 1);
+  resources_set_int( "Mousetype", 0);
+  resources_set_int( "Mouseport", 1);
+
   return 0;
 }
 

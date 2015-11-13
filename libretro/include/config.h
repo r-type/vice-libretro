@@ -408,7 +408,8 @@
 #undef HAVE_MMAP_DEVICE_IO
 
 /* Enable 1351 mouse support */
-#undef HAVE_MOUSE
+//#undef HAVE_MOUSE
+#define HAVE_MOUSE 1
 
 /* Use nanosleep instead of usleep */
 #undef HAVE_NANOSLEEP

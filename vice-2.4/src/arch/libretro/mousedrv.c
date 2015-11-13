@@ -64,7 +64,21 @@ void mousedrv_init(void)
 /* ------------------------------------------------------------------------- */
 
 void mouse_button(int bnumber, int state)
-{/*
+{
+
+	switch (bnumber) {
+
+    case 0: //_LEFT:
+        mouse_button_left(state);
+        break;
+    case 1: //RIGHT:
+        mouse_button_right(state);
+        break;
+    default:
+        break;
+    }
+
+/*
     switch (bnumber) {
     case SDL_BUTTON_LEFT:
         mouse_button_left(state);
@@ -99,8 +113,10 @@ int mousedrv_get_y(void)
 
 void mouse_move(int x, int y)
 {
+//printf("(%d,%d)-",x,y);
     mouse_x += x * mouse_accelx;
     mouse_y -= y * mouse_accely;
+//printf("(%d,%d)\n",mouse_x,mouse_y);
     mouse_timestamp = vsyncarch_gettime();
 }
 

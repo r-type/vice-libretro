@@ -338,7 +338,12 @@ if(pauseg==0){
       mmbR=0;
    }
 
-mouse_move((int)mouse_x, (int)mouse_y);
+if(pauseg==0){
+
+	mouse_move((int)mouse_x, (int)mouse_y);
+	mouse_button(0,mmbL);
+	mouse_button(1,mmbR);
+}
 
    gmx+=mouse_x;
    gmy+=mouse_y;
