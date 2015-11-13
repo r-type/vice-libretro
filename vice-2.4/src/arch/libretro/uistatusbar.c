@@ -372,11 +372,11 @@ void uistatusbar_draw(void)
         }
 
         if (c & 0x80) {
-			Draw_text((char *)Retro_Screen, i*16,0,color_f, color_b,1,1,2,"%c",c&0x7f);
+			Draw_text((char *)Retro_Screen, i*8,0,color_f, color_b,1,1,2,"%c",c&0x7f);
           //  uistatusbar_putchar((BYTE)(c & 0x7f), i, 0, color_b, color_f);
         } else {
          //  uistatusbar_putchar(c, i, 0, color_f, color_b);
-			Draw_text((char *)Retro_Screen, i*16,0,color_f, color_b,1,1,2,"%c",c);
+			Draw_text((char *)Retro_Screen, i*8,0,color_f, color_b,1,1,2,"%c",c);
 
         }
     }

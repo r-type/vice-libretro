@@ -26,6 +26,14 @@ bool num_locked = false;
 
 #define MATRIX(a,b) (((a) << 3) | (b))
 
+int check_crtfile(const char * file)
+{
+	if(File_DoesFileExtensionMatch(file,"CRT"))
+		return 1;
+
+	return 0;
+}
+
 void quick_load()
 {
 	DlgFloppy_Main();

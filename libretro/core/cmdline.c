@@ -40,7 +40,10 @@ int pre_main(const char *argv)
 
    if(Only1Arg)
    {  Add_Option("x64");
-     //Add_Option("skelsdl");
+
+	  if(check_crtfile(RPATH))
+		Add_Option("-cartcrt");
+
       Add_Option(RPATH/*ARGUV[0]*/);
    }
    else
