@@ -36,7 +36,10 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
+
 extern void gui_poll_events(void);
+extern int c64mouse_enable;
+extern int vice_statusbar;
 
 #define SDL_Delay usleep
 

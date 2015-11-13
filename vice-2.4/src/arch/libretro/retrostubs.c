@@ -32,6 +32,12 @@ void quick_load()
 	pauseg=0;
 }
 
+void quick_option()
+{
+	Dialog_OptionDlg();
+	pauseg=0;
+}
+
 #if 0
 static void sdl_vkbd_key_press(int value, int shift)
 {
@@ -266,7 +272,7 @@ void Keymap_KeyDown(int symkey,uint8 *key_matrix, uint8 *rev_matrix, uint8 *joys
 			pauseg=2;
 			break;
 		case RETROK_F10:	// F10: 
-
+			pauseg=3;
 			break;
 
 /*

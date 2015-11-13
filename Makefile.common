@@ -76,6 +76,7 @@ SOURCES_C += $(GUI)/dialog.c\
 				 $(GUI)/dlgVideo.c \
 				 $(GUI)/dlgMain.c \
 				 $(GUI)/dlgSnapshot.c \
+				 $(GUI)/dlgOption.c \
 				 $(GUI)/sdlgui.c
 
 

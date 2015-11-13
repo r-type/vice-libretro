@@ -62,7 +62,7 @@ int NUMjoy=1;
 //MOUSE
 extern int pushi;  // gui mouse btn
 int gmx,gmy; //gui mouse
-
+int c64mouse_enable=0;
 //KEYBOARD
 char Key_Sate[512];
 char Key_Sate2[512];
@@ -338,7 +338,7 @@ if(pauseg==0){
       mmbR=0;
    }
 
-if(pauseg==0){
+if(pauseg==0 && c64mouse_enable){
 
 	mouse_move((int)mouse_x, (int)mouse_y);
 	mouse_button(0,mmbL);
