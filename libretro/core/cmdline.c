@@ -41,8 +41,9 @@ int pre_main(const char *argv)
    if(Only1Arg)
    {  Add_Option("x64");
 
-	  if(check_crtfile(RPATH))
-		Add_Option("-cartcrt");
+	if (strlen(RPATH) >= strlen("crt"))
+		if(!strcasecmp(&RPATH[strlen(RPATH)-strlen("crt")], "crt"))
+			Add_Option("-cartcrt");
 
       Add_Option(RPATH/*ARGUV[0]*/);
    }
