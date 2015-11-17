@@ -316,27 +316,27 @@ void retro_poll_event(void)
 
     BYTE j = joystick_value[cur_port];
 
-    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP)) {
+    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP) || input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP8) ) {
         j |= 0x01;
     } else {
         j &= ~0x01;
     }
-    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN)) {
+    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN) || input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP2)) {
         j |= 0x02;
     } else {
         j &= ~0x02;
     }
-    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT)) {
+    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT) || input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP4)) {
         j |= 0x04;
     } else {
         j &=~ 0x04;
     }
-    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT)) {
+    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT) || input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP6)) {
         j |= 0x08;
     } else {
         j &= ~0x08;
     }
-    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A)) {
+    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A) || input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_RCTRL)) {
         j |= 0x10;
     } else {
         j &= ~0x10;

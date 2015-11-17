@@ -1,0 +1,147 @@
+EMU := $(CORE_DIR)/vice-2.4/src
+LOCAL_PATH := $(CORE_DIR)/vice-2.4
+MY_PATH2 := $(CORE_DIR)/vice-2.4
+
+INCFLAGS += -D__VIC20__ \
+			-I$(CORE_DIR)/libretro/libco \
+			-I$(CORE_DIR)/libretro/core \
+			-I$(CORE_DIR)/libretro/include \
+			-I$(CORE_DIR)/libretro/emu \
+			-I$(CORE_DIR)/libretro \
+			-I$(CORE_DIR) \
+			-I$(EMU) -I$(EMU)/userport -I$(EMU)/video  -I$(EMU)/core -I$(EMU)/platform \
+			-I$(EMU)/sid -I$(EMU)/drive -I$(EMU)/vicii -I$(EMU)/tape -I$(EMU)/c64 \
+			-I$(EMU)/c64dtv -I$(EMU)/vdc -I$(EMU)/raster -I$(EMU)/crtc -I$(EMU)/vdrive \
+			-I$(EMU)/c64/cart -I$(EMU)/imagecontents -I$(EMU)/arch/libretro -I$(EMU)/src \
+			-I$(EMU)/lib/p64 -I$(EMU)/drive/iec/c64exp \
+			-I$(EMU)/rtc -I$(EMU)/resid -I$(EMU)/monitor
+
+
+CG_SUBDIRS := \
+$(MY_PATH2)/src/drive \
+$(MY_PATH2)/src/fileio \
+$(MY_PATH2)/src/fsdevice \
+$(MY_PATH2)/src/userport \
+$(MY_PATH2)/src/lib/p64 \
+$(MY_PATH2)/src/drive/iecieee \
+$(MY_PATH2)/src/printerdrv \
+$(MY_PATH2)/src/rs232drv \
+$(MY_PATH2)/src/rtc \
+$(MY_PATH2)/src/vdrive \
+$(MY_PATH2)/src/diskimage \
+$(MY_PATH2)/src/imagecontents \
+$(MY_PATH2)/src/drive/iec/c64exp \
+$(MY_PATH2)/src/sid \
+$(MY_PATH2)/src/resid \
+$(MY_PATH2)/src/raster \
+$(MY_PATH2)/src/video \
+$(MY_PATH2)/src/monitor \
+$(MY_PATH2)/src/core \
+$(MY_PATH2)/src/platform \
+$(MY_PATH2)/src/drive/iec \
+$(MY_PATH2)/src/iecbus \
+$(MY_PATH2)/src/drive/ieee \
+$(MY_PATH2)/src/parallel \
+$(MY_PATH2)/src/tape \
+$(MY_PATH2)/src/vic20/cart \
+$(MY_PATH2)/src/vic20 
+
+
+
+LOCAL_SRC_FILES := $(foreach F, $(CG_SUBDIRS), $(addprefix $(F)/,$(notdir $(wildcard $(F)/*.c))))
+LOCAL_SRC_CC_FILES += $(foreach F, $(CG_SUBDIRS), $(addprefix $(F)/,$(notdir $(wildcard $(F)/*.cc))))
+LOCAL_SRC_CC_FILES := $(filter-out $(MY_PATH2)/src/sid/resid-dtv.cc, $(LOCAL_SRC_CC_FILES))
+
+LOCAL_SRC_FILES += \
+	$(MY_PATH2)/src/c64/cart/c64acia1.c \
+	$(MY_PATH2)/src/c64/cart/digimax.c \
+	$(MY_PATH2)/src/c64/cart/ds12c887rtc.c \
+	$(MY_PATH2)/src/c64/cart/georam.c \
+	$(MY_PATH2)/src/c64/cart/sfx_soundexpander.c \
+	$(MY_PATH2)/src/c64/cart/sfx_soundsampler.c \
+	$(MY_PATH2)/src/c64/cart/tfe.c \
+	$(MY_PATH2)/src/gfxoutputdrv/bmpdrv.c \
+	$(MY_PATH2)/src/gfxoutputdrv/doodledrv.c \
+	$(MY_PATH2)/src/gfxoutputdrv/gfxoutput.c \
+	$(MY_PATH2)/src/gfxoutputdrv/iffdrv.c \
+	$(MY_PATH2)/src/gfxoutputdrv/koaladrv.c \
+	$(MY_PATH2)/src/gfxoutputdrv/nativedrv.c \
+	$(MY_PATH2)/src/gfxoutputdrv/pcxdrv.c \
+	$(MY_PATH2)/src/gfxoutputdrv/ppmdrv.c \
+	$(MY_PATH2)/src/serial/fsdrive.c \
+	$(MY_PATH2)/src/serial/serial.c \
+	$(MY_PATH2)/src/serial/serial-device.c \
+	$(MY_PATH2)/src/serial/serial-iec.c \
+	$(MY_PATH2)/src/serial/serial-iec-bus.c \
+	$(MY_PATH2)/src/serial/serial-iec-device.c \
+	$(MY_PATH2)/src/serial/serial-iec-lib.c \
+	$(MY_PATH2)/src/serial/serial-realdevice.c \
+	$(MY_PATH2)/src/serial/serial-trap.c \
+	$(MY_PATH2)/src/alarm.c \
+	$(MY_PATH2)/src/attach.c \
+	$(MY_PATH2)/src/autostart.c \
+	$(MY_PATH2)/src/autostart-prg.c \
+	$(MY_PATH2)/src/charset.c \
+	$(MY_PATH2)/src/clkguard.c \
+	$(MY_PATH2)/src/clipboard.c \
+	$(MY_PATH2)/src/cmdline.c \
+	$(MY_PATH2)/src/cbmdos.c \
+	$(MY_PATH2)/src/cbmimage.c \
+	$(MY_PATH2)/src/color.c \
+	$(MY_PATH2)/src/crc32.c \
+	$(MY_PATH2)/src/datasette.c \
+	$(MY_PATH2)/src/debug.c \
+	$(MY_PATH2)/src/dma.c \
+	$(MY_PATH2)/src/embedded.c \
+	$(MY_PATH2)/src/event.c \
+	$(MY_PATH2)/src/findpath.c \
+	$(MY_PATH2)/src/fliplist.c \
+	$(MY_PATH2)/src/gcr.c \
+	$(MY_PATH2)/src/info.c \
+	$(MY_PATH2)/src/init.c \
+	$(MY_PATH2)/src/initcmdline.c \
+	$(MY_PATH2)/src/interrupt.c \
+	$(MY_PATH2)/src/ioutil.c \
+	$(MY_PATH2)/src/joystick.c \
+	$(MY_PATH2)/src/kbdbuf.c \
+	$(MY_PATH2)/src/keyboard.c \
+	$(MY_PATH2)/src/lib.c \
+	$(MY_PATH2)/src/libm_math.c \
+	$(MY_PATH2)/src/lightpen.c \
+	$(MY_PATH2)/src/log.c \
+	$(MY_PATH2)/src/machine-bus.c \
+	$(MY_PATH2)/src/machine.c \
+	$(MY_PATH2)/src/main.c \
+	$(MY_PATH2)/src/network.c \
+	$(MY_PATH2)/src/opencbmlib.c \
+	$(MY_PATH2)/src/palette.c \
+	$(MY_PATH2)/src/ram.c \
+	$(MY_PATH2)/src/rawfile.c \
+	$(MY_PATH2)/src/rawnet.c \
+	$(MY_PATH2)/src/resources.c \
+	$(MY_PATH2)/src/romset.c \
+	$(MY_PATH2)/src/screenshot.c \
+	$(MY_PATH2)/src/snapshot.c \
+	$(MY_PATH2)/src/socket.c \
+	$(MY_PATH2)/src/sound.c \
+	$(MY_PATH2)/src/sysfile.c \
+	$(MY_PATH2)/src/translate.c \
+	$(MY_PATH2)/src/traps.c \
+	$(MY_PATH2)/src/util.c \
+	$(MY_PATH2)/src/vsync.c \
+	$(MY_PATH2)/src/zfile.c \
+	$(MY_PATH2)/src/zipcode.c \
+	$(MY_PATH2)/src/midi.c \
+	$(MY_PATH2)/src/sounddrv/soundaiff.c \
+	$(MY_PATH2)/src/sounddrv/sounddummy.c \
+	$(MY_PATH2)/src/sounddrv/sounddump.c \
+	$(MY_PATH2)/src/sounddrv/soundfs.c \
+	$(MY_PATH2)/src/sounddrv/soundiff.c \
+	$(MY_PATH2)/src/sounddrv/soundmovie.c \
+	$(MY_PATH2)/src/sounddrv/soundretro.c \
+	$(MY_PATH2)/src/sounddrv/soundvoc.c \
+	$(MY_PATH2)/src/sounddrv/soundwav.c	\
+	$(MY_PATH2)/src/mouse.c 
+	
+
+

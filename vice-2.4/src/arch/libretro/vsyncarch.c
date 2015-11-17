@@ -35,15 +35,24 @@
 
 #include "libretro-core.h"
 
-#ifdef __X64SC__
+#if defined(__X64SC__)
 //XS:0   YS:16 XI:0 YI:0 W:384 H:272 XSC64
 #define XS 0
 #define YS 16
+#elif defined(__PLUS4__)
+#define XS 28
+#define YS 19
+#elif defined(__VIC20__)
+//XS:576 YS:28 XI:0 YI:0 W:448 H:284
+#define XS 576
+#define YS 28
 #else
 //XS:104 YS:16 XI:0 YI:0 W:384 H:272 X64
 #define XS 104
 #define YS 16
 #endif
+
+extern int retrow,retroh;
 
 extern struct video_canvas_s *RCANVAS;
 
@@ -97,10 +106,10 @@ void vsyncarch_presync(void)
 	retro_poll_event();
 
 	video_canvas_render(RCANVAS,(BYTE *)Retro_Screen,
-						384, 272,
+						retrow,retroh,//384, 272,
                         XS,YS,//xs, ys,
                         0,0,//xi, yi,
-                        384*4, 32);
+                        retrow*4,32);//384*4, 32);
 
 	retro_virtualkb();
 

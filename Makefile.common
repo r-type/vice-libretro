@@ -9,12 +9,13 @@ INCFLAGS += 			-I$(CORE_DIR)/libretro/libco \
 			-I$(CORE_DIR)/libretro \
 			-I$(CORE_DIR) \
 			-I$(EMU) -I$(EMU)/userport -I$(EMU)/video  -I$(EMU)/core -I$(EMU)/platform \
-			 -I$(EMU)/sid -I$(EMU)/drive -I$(EMU)/vicii -I$(EMU)/tape -I$(EMU)/c64 \
-			 -I$(EMU)/c64dtv -I$(EMU)/vdc -I$(EMU)/raster -I$(EMU)/crtc -I$(EMU)/vdrive \
-			 -I$(EMU)/c64/cart -I$(EMU)/imagecontents -I$(EMU)/arch/libretro -I$(EMU)/src \
+			-I$(EMU)/sid -I$(EMU)/drive -I$(EMU)/vicii -I$(EMU)/tape -I$(EMU)/c64 \
+			-I$(EMU)/c64dtv -I$(EMU)/vdc -I$(EMU)/raster -I$(EMU)/crtc -I$(EMU)/vdrive \
+			-I$(EMU)/c64/cart -I$(EMU)/imagecontents -I$(EMU)/arch/libretro -I$(EMU)/src \
 			-I$(EMU)/lib/p64 -I$(EMU)/drive/iec/c64exp -I$(EMU)/rtc \
- 			-I$(EMU)/resid -I$(EMU)/monitor 
- 
+ 			-I$(EMU)/resid -I$(EMU)/monitor \
+			-I$(EMU)/vic20 \
+			-I$(EMU)/vic20/cart 
 
 ifneq ($(NOLIBCO), 1)
 	INCFLAGS += -I$(CORE_DIR)/libretro/libco
@@ -40,6 +41,12 @@ else ifeq ($(EMUTYPE), x64sc)
 include Makefile.x64sc
 else ifeq ($(EMUTYPE), x64dtv)
 include Makefile.x64dtv
+else ifeq ($(EMUTYPE), x64scpu)
+include Makefile.x64scpu
+else ifeq ($(EMUTYPE), xplus4)
+include Makefile.xplus4
+else ifeq ($(EMUTYPE), xvic)
+include Makefile.xvic
 else
 include Makefile.x64
 endif

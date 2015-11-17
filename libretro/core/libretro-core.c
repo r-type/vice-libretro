@@ -97,9 +97,16 @@ static void update_variables(void)
       if (pch)
          retroh = strtoul(pch, NULL, 0);
 
-	//FIXME remove force 384x272
+	//FIXME remove force res
 	retrow=WINDOW_WIDTH;
 	retroh=WINDOW_HEIGHT;
+#ifndef __VIC20__
+	retrow=384;
+	retroh=272;
+#else
+	retrow=448;
+	retroh=284;
+#endif
 
       fprintf(stderr, "[libretro-vice]: Got size: %u x %u.\n", retrow, retroh);
 

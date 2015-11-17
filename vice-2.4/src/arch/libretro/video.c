@@ -58,6 +58,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     printf ("canvas width wants to be : %d\ncanvas height wants to be : %d\ncanvas depth wants to be : %d\n", canvas->width, canvas->height, canvas->depth);
 
     canvas->depth = 32;
+//canvas->width=320;canvas->height=200;
 
     printf ("canvas set to %d x %d\n", canvas->width, canvas->height);
 

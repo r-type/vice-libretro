@@ -226,11 +226,6 @@ void c128ui_shutdown(void)
 {
 }
 
-int c64scui_init(void)
-{
-     return 0;
-}
-
 void c64dtvui_shutdown(void)
 {
 }
@@ -242,5 +237,34 @@ int c64dtvui_init(void)
 
 void c64scui_shutdown(void)
 {
+}
+
+int c64scui_init(void)
+{
+     return 0;
+}
+/*
+void c64scui_shutdown(void)
+{
+}
+*/
+int scpu64ui_init(void)
+{
+     return 0;
+}
+
+int plus4ui_init(void)
+{
+     return 0;
+}
+
+int vic20ui_init(void)
+{
+     return 0;
+}
+  
+int vic20ui_shutdown(void)
+{
+
 }
 
