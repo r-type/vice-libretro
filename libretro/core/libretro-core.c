@@ -14,9 +14,9 @@ int CROP_HEIGHT;
 int VIRTUAL_WIDTH ;
 int retrow=1024; 
 int retroh=1024;
-/*
-extern int retrojoy_init;
-*/
+
+extern int retrojoy_init,RETROJOY;
+
 extern int SHIFTON,pauseg,SND ,snd_sampler;
 extern short signed int SNDBUF[1024*2];
 extern char RPATH[512];
@@ -68,12 +68,12 @@ void retro_set_environment(retro_environment_t cb)
          "DriveTrueEmulation; disabled|enabled",
       },
 
-/*
+
       {
          "vice_RetroJoy",
          "Retro joy0; disabled|enabled",
       },
-*/
+
       { NULL, NULL },
    };
 
@@ -166,20 +166,25 @@ static void update_variables(void)
       if (strcmp(var.value, "disabled") == 0)
          set_truedrive_emultion(0);
    }
-/*
+
    var.key = "vice_RetroJoy";
    var.value = NULL;
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-if(retrojoy_init){
-      if (strcmp(var.value, "enabled") == 0)
-         resources_set_int( "RetroJoy", 1);
-      if (strcmp(var.value, "disabled") == 0)
-         resources_set_int( "RetroJoy", 0);
-}
+		if(retrojoy_init){
+		      if (strcmp(var.value, "enabled") == 0)
+		         resources_set_int( "RetroJoy", 1);
+		      if (strcmp(var.value, "disabled") == 0)
+		         resources_set_int( "RetroJoy", 0);
+		}
+		else {
+			if (strcmp(var.value, "enabled") == 0)RETROJOY=1;
+			if (strcmp(var.value, "disabled") == 0)RETROJOY=0;
+		}
+
    }
-*/
+
 }
 
 static void retro_wrap_emulator()

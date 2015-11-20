@@ -32,6 +32,8 @@
 #include <string.h>
 #include <stdarg.h>
 
+int RETROJOY=0;
+
 static const cmdline_option_t cmdline_options[] = {
      { NULL }
 };
@@ -115,7 +117,8 @@ int ui_init_finalize()
   resources_set_int( "CrtcFilter",0);
   resources_set_int( "CrtcStretchVertical",0);
 
- // resources_set_int( "RetroJoy", 1);
+  if(RETROJOY)resources_set_int( "RetroJoy", 1);
+  else resources_set_int( "RetroJoy", 0);
 
   return 0;
 }
