@@ -47,6 +47,12 @@ else ifeq ($(EMUTYPE), xplus4)
 include Makefile.xplus4
 else ifeq ($(EMUTYPE), xvic)
 include Makefile.xvic
+else ifeq ($(EMUTYPE), xcbm5x0)
+include Makefile.xcbm5x0
+else ifeq ($(EMUTYPE), xcbm2)
+include Makefile.xcbm2
+else ifeq ($(EMUTYPE), xpet)
+include Makefile.xpet
 else
 include Makefile.x64
 endif
@@ -57,7 +63,7 @@ SOURCES_CC	:= \
 SOURCES_C	+= \
 			$(LOCAL_SRC_FILES) \
 		   $(EMU)/arch/libretro/joy.c $(EMU)/arch/libretro/video.c \
-		   $(EMU)/arch/libretro/ui.c  \
+		   $(EMU)/arch/libretro/ui.c $(EMU)/arch/libretro/kbd.c \
            $(EMU)/arch/libretro/main.c $(EMU)/arch/libretro/archdep.c \
 		   $(EMU)/arch/libretro/vsidui.c $(EMU)/arch/libretro/blockdev.c \
 		   $(EMU)/arch/libretro/c64ui.c $(EMU)/arch/libretro/console.c \

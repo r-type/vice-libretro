@@ -106,10 +106,16 @@ int ui_init_finish()
 
 int ui_init_finalize()
 {
+  //FIXME
   resources_set_int( "SDLStatusbar", 1);
   resources_set_int( "Mouse", 0);
   resources_set_int( "Mousetype", 0);
   resources_set_int( "Mouseport", 1);
+
+  resources_set_int( "CrtcFilter",0);
+  resources_set_int( "CrtcStretchVertical",0);
+
+ // resources_set_int( "RetroJoy", 1);
 
   return 0;
 }

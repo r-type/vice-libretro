@@ -347,6 +347,9 @@ void uistatusbar_close(void)
     uistatusbar_state = UISTATUSBAR_REPAINT;
 }
 
+#include "keyboard.h"
+extern unsigned int cur_port;
+
 void uistatusbar_draw(void)
 {
     int i;
@@ -363,6 +366,8 @@ void uistatusbar_draw(void)
                   + sdl_active_canvas->geometry->extra_offscreen_border_left
                   + sdl_active_canvas->viewport->first_x;
 */
+
+Draw_text((char *)Retro_Screen, 200,0,color_f, color_b,1,1,8*6,"joy%d:%d",cur_port,joystick_value[cur_port]);
 
     for (i = 0; i < MAX_STATUSBAR_LEN; ++i) {
         c = statusbar_text[i];

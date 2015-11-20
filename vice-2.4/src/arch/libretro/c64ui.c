@@ -268,3 +268,32 @@ int vic20ui_shutdown(void)
 
 }
 
+int cbm5x0ui_init(void)
+{
+     return 0;
+}
+
+int cbm5x0ui_shutdown(void)
+{
+
+}
+
+int cbm2ui_init(void)
+{
+     return 0;
+}
+
+int cbm2ui_shutdown(void)
+{
+
+}
+
+int petui_init(void)
+{
+     return 0;
+}
+
+int petui_shutdown(void)
+{
+
+}

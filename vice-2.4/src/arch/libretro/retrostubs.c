@@ -38,232 +38,21 @@ void quick_option()
 	pauseg=0;
 }
 
-#if 0
-static void sdl_vkbd_key_press(int value, int shift)
-{
-    int mr, mc, neg;
-    BYTE b, sb;
-
-    b = vkbd->keytable[vkbd_x + vkbd_y*vkbd_w];
-
-    if ((b == VKBD_COMMAND_CLOSE) && (value)) {
-        sdl_vkbd_close();
-        return;
-    }
-
-    if (b == VKBD_COMMAND_MOVE) {
-        if (value && shift) {
-            sdl_vkbd_close();
-        } else {
-            vkbd_move = value;
-        }
-        return;
-    }
-
-    neg = b & 0x08;
-
-    if (shift && !neg) {
-        sb = vkbd->shift;
-        mc = (int)(sb & 0xf);
-        mr = (int)((sb >> 4) & 0xf);
-        keyboard_set_keyarr(mr, mc, value);
-    }
-
-    mc = (int)(b & 0x7);
-    mr = (int)((b >> 4) & 0xf);
-
-    if (neg) {
-        mr = -mr;
-    }
-
-    keyboard_set_keyarr_any(mr, mc, value);
-}
-#endif
-
 void Screen_SetFullUpdate(int scr)
 {
    if(scr==0 ||scr>1)memset(Retro_Screen, 0, sizeof(Retro_Screen));
   //if(scr>0)if(Screen)memset(Screen->pixels,0,Screen->h*Screen->pitch);
 }
 
-void validkey(int c64_key,int key_up,unsigned char *key_matrix, unsigned char *rev_matrix, unsigned char *joystick){
-//FIXME
-	int row=c64_key>>3;
-	int col=c64_key&0x7;
-	keyboard_set_keyarr_any(row,col,key_up);
-}
-
-void pre_validkey(int c64_key,int key_up,unsigned char *key_matrix, unsigned char *rev_matrix, unsigned char *joystick){
-//FIXME TAKEN FROM FRODO
-	// Handle joystick emulation
-	if (c64_key & 0x40 && SHOWKEY!=1) {
-
-		BYTE j = joystick_value[cur_port];
-		c64_key &= 0x1f;
-		if (key_up)
-			j |= c64_key;
-		else
-			j &= ~c64_key;
-
-    	joystick_value[cur_port] = j;
-
-		return;
-	}
-
-	validkey(c64_key,key_up,NULL,NULL,NULL);
-}
-
-
-static void translate_key(int key, bool key_up, uint8 *key_matrix, uint8 *rev_matrix, uint8 *joystick)
-{
-	int c64_key = -1;
-	switch (key) {
-		case RETROK_a: c64_key = MATRIX(1,2); break;
-		case RETROK_b: c64_key = MATRIX(3,4); break;
-		case RETROK_c: c64_key = MATRIX(2,4); break;
-		case RETROK_d: c64_key = MATRIX(2,2); break;
-		case RETROK_e: c64_key = MATRIX(1,6); break;
-		case RETROK_f: c64_key = MATRIX(2,5); break;
-		case RETROK_g: c64_key = MATRIX(3,2); break;
-		case RETROK_h: c64_key = MATRIX(3,5); break;
-		case RETROK_i: c64_key = MATRIX(4,1); break;
-		case RETROK_j: c64_key = MATRIX(4,2); break;
-		case RETROK_k: c64_key = MATRIX(4,5); break;
-		case RETROK_l: c64_key = MATRIX(5,2); break;
-		case RETROK_m: c64_key = MATRIX(4,4); break;
-		case RETROK_n: c64_key = MATRIX(4,7); break;
-		case RETROK_o: c64_key = MATRIX(4,6); break;
-		case RETROK_p: c64_key = MATRIX(5,1); break;
-		case RETROK_q: c64_key = MATRIX(7,6); break;
-		case RETROK_r: c64_key = MATRIX(2,1); break;
-		case RETROK_s: c64_key = MATRIX(1,5); break;
-		case RETROK_t: c64_key = MATRIX(2,6); break;
-		case RETROK_u: c64_key = MATRIX(3,6); break;
-		case RETROK_v: c64_key = MATRIX(3,7); break;
-		case RETROK_w: c64_key = MATRIX(1,1); break;
-		case RETROK_x: c64_key = MATRIX(2,7); break;
-		case RETROK_y: c64_key = MATRIX(3,1); break;
-		case RETROK_z: c64_key = MATRIX(1,4); break;
-
-		case RETROK_0: c64_key = MATRIX(4,3); break;
-		case RETROK_1: c64_key = MATRIX(7,0); break;
-		case RETROK_2: c64_key = MATRIX(7,3); break;
-		case RETROK_3: c64_key = MATRIX(1,0); break;
-		case RETROK_4: c64_key = MATRIX(1,3); break;
-		case RETROK_5: c64_key = MATRIX(2,0); break;
-		case RETROK_6: c64_key = MATRIX(2,3); break;
-		case RETROK_7: c64_key = MATRIX(3,0); break;
-		case RETROK_8: c64_key = MATRIX(3,3); break;
-		case RETROK_9: c64_key = MATRIX(4,0); break;
-
-		case RETROK_SPACE: c64_key = MATRIX(7,4); break;
-		case RETROK_BACKQUOTE: c64_key = MATRIX(7,1); break;
-		case RETROK_BACKSLASH: c64_key = MATRIX(6,6); break;
-		case RETROK_COMMA: c64_key = MATRIX(5,7); break;
-		case RETROK_PERIOD: c64_key = MATRIX(5,4); break;
-		case RETROK_MINUS: c64_key = MATRIX(5,0); break;
-		case RETROK_EQUALS: c64_key = MATRIX(5,3); break;
-		case RETROK_LEFTBRACKET: c64_key = MATRIX(5,6); break;
-		case RETROK_RIGHTBRACKET: c64_key = MATRIX(6,1); break;
-		case RETROK_SEMICOLON: c64_key = MATRIX(5,5); break;
-		case RETROK_QUOTE: c64_key = MATRIX(6,2); break;
-		case RETROK_SLASH: c64_key = MATRIX(6,7); break;
-
-		case RETROK_ESCAPE: c64_key = MATRIX(7,7); break;
-		case RETROK_RETURN: c64_key = MATRIX(0,1); break;              
-		case RETROK_BACKSPACE: case RETROK_DELETE: c64_key = MATRIX(0,0); break;
-		case RETROK_INSERT: c64_key = MATRIX(6,3); break;
-		case RETROK_HOME: c64_key = MATRIX(6,3); break;
-		case RETROK_END: c64_key = MATRIX(6,0); break;
-		case RETROK_PAGEUP: c64_key = MATRIX(6,0); break;
-		case RETROK_PAGEDOWN: c64_key = MATRIX(6,5); break;
-
-		case RETROK_LCTRL: case RETROK_TAB: c64_key = MATRIX(7,2); break;
-		case RETROK_RCTRL: c64_key = MATRIX(7,5); break;
-		case RETROK_LSHIFT: c64_key = MATRIX(1,7); break;
-		case RETROK_RSHIFT: c64_key = MATRIX(6,4); break;
-		case RETROK_LALT: case RETROK_LMETA: c64_key = MATRIX(7,5); break;
-		case RETROK_RALT: case RETROK_RMETA: c64_key = MATRIX(7,5); break;
-
-		case RETROK_UP: c64_key = MATRIX(0,7)| 0x80; break;
-		case RETROK_DOWN: c64_key = MATRIX(0,7); break;
-		case RETROK_LEFT: c64_key = MATRIX(0,2) | 0x80; break;
-		case RETROK_RIGHT: c64_key = MATRIX(0,2); break;
-
-		case RETROK_F1: c64_key = MATRIX(0,4); break;
-		case RETROK_F2: c64_key = MATRIX(0,4) | 0x80; break;
-		case RETROK_F3: c64_key = MATRIX(0,5); break;
-		case RETROK_F4: c64_key = MATRIX(0,5) | 0x80; break;
-		case RETROK_F5: c64_key = MATRIX(0,6); break;
-		case RETROK_F6: c64_key = MATRIX(0,6) | 0x80; break;
-		case RETROK_F7: c64_key = MATRIX(0,3); break;
-		case RETROK_F8: c64_key = MATRIX(0,3) | 0x80; break;
-
-		case RETROK_KP0: case RETROK_KP5: c64_key = 0x10 | 0x40; break;
-		case RETROK_KP1: c64_key = 0x06 | 0x40; break;
-		case RETROK_KP2: c64_key = 0x02 | 0x40; break;
-		case RETROK_KP3: c64_key = 0x0a | 0x40; break;
-		case RETROK_KP4: c64_key = 0x04 | 0x40; break;
-		case RETROK_KP6: c64_key = 0x08 | 0x40; break;
-		case RETROK_KP7: c64_key = 0x05 | 0x40; break;
-		case RETROK_KP8: c64_key = 0x01 | 0x40; break;
-		case RETROK_KP9: c64_key = 0x09 | 0x40; break;
-
-		case RETROK_KP_DIVIDE: c64_key = MATRIX(6,7); break;
-		case RETROK_KP_ENTER: c64_key = MATRIX(0,1); break;
-	}
-
-	if (c64_key < 0)
-		return;
-
-	// Handle joystick emulation
-	if (c64_key & 0x40) {
-
-		BYTE j = joystick_value[cur_port];
-		c64_key &= 0x1f;
-		if (key_up)
-			j |= c64_key;
-		else
-			j &= ~c64_key;
-
-    	joystick_value[cur_port] = j;
-
-		return;
-	}
-
-	validkey(c64_key,key_up==true?1:0,NULL,NULL,NULL);
-/*
-	// Handle other keys
-	bool shifted = c64_key & 0x80;
-	int c64_byte = (c64_key >> 3) & 7;
-	int c64_bit = c64_key & 7;
-	if (key_up) {
-		if (shifted) {
-			key_matrix[6] |= 0x10;
-			rev_matrix[4] |= 0x40;
-		}
-		key_matrix[c64_byte] |= (1 << c64_bit);
-		rev_matrix[c64_bit] |= (1 << c64_byte);
-	} else {
-		if (shifted) {
-			key_matrix[6] &= 0xef;
-			rev_matrix[4] &= 0xbf;
-		}
-		key_matrix[c64_byte] &= ~(1 << c64_bit);
-		rev_matrix[c64_bit] &= ~(1 << c64_byte);
-	}
-*/
-}
-
-
-void Keymap_KeyUp(int symkey,uint8 *key_matrix, uint8 *rev_matrix, uint8 *joystick)
+void Keymap_KeyUp(int symkey)
 {
 	if (symkey == RETROK_NUMLOCK)
 		num_locked = false;
-	else
-			translate_key(symkey, false, key_matrix, rev_matrix, joystick);			
+	else 
+		kbd_handle_keyup(symkey);		
 }
-void Keymap_KeyDown(int symkey,uint8 *key_matrix, uint8 *rev_matrix, uint8 *joystick)
+
+void Keymap_KeyDown(int symkey)
 {
 
 	switch (symkey){
@@ -274,7 +63,6 @@ void Keymap_KeyDown(int symkey,uint8 *key_matrix, uint8 *rev_matrix, uint8 *joys
 		case RETROK_F10:	// F10: 
 			pauseg=3;
 			break;
-
 /*
 //FIXME detect retroarch hotkey
 		case RETROK_F11:	// F11:
@@ -305,43 +93,49 @@ void Keymap_KeyDown(int symkey,uint8 *key_matrix, uint8 *rev_matrix, uint8 *joys
 			break;
 
 		default:
-			translate_key(symkey, true, key_matrix, rev_matrix, joystick);
+			kbd_handle_keydown( symkey);
 			break;
 	}
 }
 
-void retro_poll_event(void)
+void retro_poll_event(int joyon)
 {
 	Retro_PollEvent(NULL,NULL,NULL);
 
-    BYTE j = joystick_value[cur_port];
+	if(joyon) // retro joypad take control over keyboard joy
+	{
 
-    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP) || input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP8) ) {
-        j |= 0x01;
-    } else {
-        j &= ~0x01;
-    }
-    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN) || input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP2)) {
-        j |= 0x02;
-    } else {
-        j &= ~0x02;
-    }
-    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT) || input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP4)) {
-        j |= 0x04;
-    } else {
-        j &=~ 0x04;
-    }
-    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT) || input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP6)) {
-        j |= 0x08;
-    } else {
-        j &= ~0x08;
-    }
-    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A) || input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_RCTRL)) {
-        j |= 0x10;
-    } else {
-        j &= ~0x10;
-    }
-    joystick_value[cur_port] = j;
+    	BYTE j = joystick_value[cur_port];
+
+    	if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP) ){
+        	j |= 0x01;
+    	} else {
+        	j &= ~0x01;
+    	}
+    	if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN) ){
+        	j |= 0x02;
+    	} else {
+        	j &= ~0x02;
+    	}
+    	if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT) ){
+        	j |= 0x04;
+    	} else {
+        	j &=~ 0x04;
+    	}
+    	if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT) ){
+        	j |= 0x08;
+    	} else {
+    	    j &= ~0x08;
+    	}
+    	if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A) ){
+    	    j |= 0x10;
+    	} else {
+    	    j &= ~0x10;
+    	}
+	
+    	joystick_value[cur_port] = j;
+	}
+
 
 }
 
@@ -397,7 +191,7 @@ void retro_virtualkb(void)
 
    if(oldi!=-1)
    {
-      pre_validkey(oldi,0,NULL,NULL,NULL);
+	  kbd_handle_keyup(oldi);
       oldi=-1;
    }
 
@@ -458,14 +252,10 @@ void retro_virtualkb(void)
          if(i==-2)
          {
             NPAGE=-NPAGE;oldi=-1;
-            //Clear interface zone					
-            //Screen_SetFullUpdate();
-
          }
          else if(i==-3)
          {
             //KDB bgcolor
-            //Screen_SetFullUpdate();
             KCOL=-KCOL;
             oldi=-1;
          }
@@ -486,25 +276,25 @@ void retro_virtualkb(void)
          {
             if(i==-10) //SHIFT
             {
- 			   pre_validkey(MATRIX(6,4),(SHIFTON == 1)?0:1,NULL,NULL,NULL);
+			   if(SHIFTON == 1)kbd_handle_keyup(RETROK_RSHIFT);
+			   else kbd_handle_keydown(RETROK_LSHIFT);
                SHIFTON=-SHIFTON;
-               //Screen_SetFullUpdate();
 
                oldi=-1;
             }
             else if(i==-11) //CTRL
-            {               
- 			   pre_validkey(MATRIX(7,2),(CTRLON == 1)?0:1,NULL,NULL,NULL);
+            {     
+          	   if(CTRLON == 1)kbd_handle_keyup(RETROK_LCTRL);
+			   else kbd_handle_keydown(RETROK_LCTRL);
                CTRLON=-CTRLON;
-               //Screen_SetFullUpdate();
 
                oldi=-1;
             }
 			else if(i==-12) //RSTOP
-            {               
- 			   pre_validkey(MATRIX(7,7),(RSTOPON == 1)?0:1,NULL,NULL,NULL);
+            {
+           	   if(RSTOPON == 1)kbd_handle_keyup(RETROK_ESCAPE);
+			   else kbd_handle_keydown(RETROK_ESCAPE);            
                RSTOPON=-RSTOPON;
-               //Screen_SetFullUpdate();
 
                oldi=-1;
             }
@@ -525,7 +315,7 @@ void retro_virtualkb(void)
             else
             {
                oldi=i;
-		       pre_validkey(oldi,1,NULL,NULL,NULL);               
+			   kbd_handle_keydown(oldi);             
             }
 
          }

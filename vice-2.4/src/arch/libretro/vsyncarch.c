@@ -46,7 +46,12 @@
 //XS:576 YS:28 XI:0 YI:0 W:448 H:284
 #define XS 576
 #define YS 28
+#elif defined(__CBM2__)
+//XS:0 YS:8 XI:0 YI:0 W:704 H:266
+#define XS 0
+#define YS 8
 #else
+//CBM5x
 //XS:104 YS:16 XI:0 YI:0 W:384 H:272 X64
 #define XS 104
 #define YS 16
@@ -100,10 +105,12 @@ void vsyncarch_sleep(signed long delay)
 
 void vsyncarch_presync(void)
 {
+	int v;
+	resources_get_int("RetroJoy",&v);
 
     kbdbuf_flush();
 	
-	retro_poll_event();
+	retro_poll_event(v);
 
 	video_canvas_render(RCANVAS,(BYTE *)Retro_Screen,
 						retrow,retroh,//384, 272,

@@ -66,6 +66,7 @@ int c64mouse_enable=0;
 //KEYBOARD
 char Key_Sate[512];
 char Key_Sate2[512];
+static char old_Key_Sate[512];
 
 static int mbt[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
@@ -76,8 +77,8 @@ int STAT_BASEY;
 /*static*/ retro_input_state_t input_state_cb;
 static retro_input_poll_t input_poll_cb;
 
-extern void Keymap_KeyUp(int symkey,uint8 *key_matrix, uint8 *rev_matrix, uint8 *joystick);
-extern void Keymap_KeyDown(int symkey,uint8 *key_matrix, uint8 *rev_matrix, uint8 *joystick);
+extern void Keymap_KeyUp(int symkey);  // define in retrostubs.c
+extern void Keymap_KeyDown(int symkey);  // define in retrostubs.c
 
 void retro_set_input_state(retro_input_state_t cb)
 {
@@ -168,19 +169,10 @@ void texture_uninit(void)
 void texture_init(void)
 {
    memset(Retro_Screen, 0, sizeof(Retro_Screen));
+   memset(old_Key_Sate ,0, sizeof(old_Key_Sate));
 
    gmx=(retrow/2)-1;
    gmy=(retroh/2)-1;
-}
-
-void retro_key_down(unsigned char retrok)
-{
-
-}
-
-void retro_key_up(unsigned char retrok)
-{
-
 }
 
 int bitstart=0;
@@ -189,60 +181,46 @@ int keydown=0,keyup=0;
 int KBMOD=-1;
 
 #define MATRIX(a,b) (((a) << 3) | (b))
-//extern unsigned int cur_port;
 
-void Process_key(uint8 *key_matrix, uint8 *rev_matrix, uint8 *joystick)
+void Process_key()
 {
-   int i;
+	int i;
 
-   keydown=0;keyup=0;
+	for(i=0;i<320;i++)
+        	Key_Sate[i]=input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0,i) ? 0x80: 0;
+   
+	if(memcmp( Key_Sate,old_Key_Sate , sizeof(Key_Sate) ) )
+	 	for(i=0;i<320;i++)
+			if(Key_Sate[i] && Key_Sate[i]!=old_Key_Sate[i]  )
+        	{	
+	
+				if(i==RETROK_RALT){
+					//KBMOD=-KBMOD;
+					//printf("Modifier pressed %d \n",KBMOD); 
+					continue;
+				}
+				
+				Keymap_KeyDown(i);
+	
+        	}	
+        	else if ( !Key_Sate[i] && Key_Sate[i]!=old_Key_Sate[i]  )
+        	{
+	
+				if(i==RETROK_RALT){
+					//KBMOD=-KBMOD;
+					//printf("Modifier pressed %d \n",KBMOD); 
+					continue;
+				}
+	
+				Keymap_KeyUp(i);
+	
+        	}	
 
-   for(i=0;i<320;i++)
-   {
-      	Key_Sate[i]=input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0,i) ? 0x80: 0;
-      
-        if(Key_Sate[i]  && Key_Sate2[i]==0)
-        {
-
-			if(i==RETROK_RALT){
-				KBMOD=-KBMOD;
-				printf("Modifier pressed %d \n",KBMOD); 
-		        Key_Sate2[i]=1;
-				continue;
-			}
-			
-			Keymap_KeyDown(i,key_matrix,rev_matrix,joystick);
-
-            //retro_key_down( i );
-            Key_Sate2[i]=1;
-			bitstart=1;//
-			keydown++;
-
-        }
-        else if ( !Key_Sate[i] && Key_Sate2[i]==1 )
-        {
-
-			if(i==RETROK_RALT){
-				//KBMOD=-KBMOD;
-				//printf("Modifier pressed %d \n",KBMOD); 
-        		Key_Sate2[i]=0;
-				continue;
-			}
-
-			Keymap_KeyUp(i,key_matrix,rev_matrix,joystick);
-
-            //retro_key_up( i );
-            Key_Sate2[i]=0;
-			bitstart=0;
-			keyup++;
-
-        }
-      
-   }
+	memcpy(old_Key_Sate,Key_Sate , sizeof(Key_Sate) );
 
 }
 
-int Retro_PollEvent(uint8 *key_matrix, uint8 *rev_matrix, uint8 *joystick)
+int Retro_PollEvent()
 {
 	//   RETRO        B    Y    SLT  STA  UP   DWN  LEFT RGT  A    X    L    R    L2   R2   L3   R3
     //   INDEX        0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15
@@ -258,7 +236,7 @@ int Retro_PollEvent(uint8 *key_matrix, uint8 *rev_matrix, uint8 *joystick)
    int16_t mouse_x,mouse_y;
    mouse_x=mouse_y=0;
 
-   if(SHOWKEY==-1 && pauseg==0)Process_key(key_matrix,rev_matrix,joystick);
+   if(SHOWKEY==-1 && pauseg==0)Process_key();
 
 if(pauseg==0){
 
@@ -279,18 +257,16 @@ if(pauseg==0){
    else if ( mbt[i]==1 && ! input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, i) ){
       mbt[i]=0;
       MOUSE_EMULATED=-MOUSE_EMULATED;
-     //cur joy toggle
-	 //cur_port++;if(cur_port>2)cur_port=1;
    }
-
+/*
    i=3;//push r/s
    if ( input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, i) && mbt[i]==0 ){
-      mbt[i]=1;validkey(MATRIX(0,3),1,NULL,NULL,NULL);
+      mbt[i]=1;kbd_handle_keydown(RETROK_ESCAPE);
    }
    else if ( mbt[i]==1 && ! input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, i) ){
-      mbt[i]=0;validkey(MATRIX(0,3),0,NULL,NULL,NULL);      
+      mbt[i]=0;kbd_handle_keyup(RETROK_ESCAPE)); 
    }
-
+*/
 
    if(MOUSE_EMULATED==1){
 

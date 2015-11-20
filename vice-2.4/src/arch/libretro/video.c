@@ -148,7 +148,11 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
-{ //printf("XS:%d YS:%d XI:%d YI:%d W:%d H:%d\n",xs,ys,xi,yi,w,h);
+{ 
+#ifdef RETRO_DEBUG
+	printf("XS:%d YS:%d XI:%d YI:%d W:%d H:%d\n",xs,ys,xi,yi,w,h);
+#endif
+
 	RCANVAS=canvas;
 }
 

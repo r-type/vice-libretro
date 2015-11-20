@@ -37,6 +37,24 @@
 #include "translate.h"
 #include "types.h"
 
+
+int retrojoy_enabled;
+int retrojoy_init=0;
+
+static int set_retrojoy(int val, void *param)
+{
+    retrojoy_enabled = val ? 1 : 0;
+
+    return 0;
+}
+
+static const resource_int_t retrojoy_resources_int[] = {
+    { "RetroJoy", 0, RES_EVENT_NO, NULL,
+      &retrojoy_enabled, set_retrojoy, NULL },
+    RESOURCE_INT_LIST_END
+};
+
+
 static const resource_int_t resources_int[] = {
     { NULL }
 };
@@ -45,6 +63,11 @@ static const resource_int_t resources_int[] = {
 
 int joystick_arch_init_resources(void)
 {
+
+	if(resources_register_int(retrojoy_resources_int)<0)return -1;
+
+	retrojoy_init=1;
+
     return resources_register_int(resources_int);
 }
 
