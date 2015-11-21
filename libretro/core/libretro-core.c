@@ -15,7 +15,8 @@ int VIRTUAL_WIDTH ;
 int retrow=1024; 
 int retroh=1024;
 
-extern int retrojoy_init,RETROJOY;
+extern int RETROJOY,RETROTDE,RETROSTATUS,RETRODRVTYPE;
+extern int retrojoy_init,retro_ui_finalized;
 
 extern int SHIFTON,pauseg,SND ,snd_sampler;
 extern short signed int SNDBUF[1024*2];
@@ -121,7 +122,6 @@ static void update_variables(void)
 	retroh=272;
 #endif
 
-
       fprintf(stderr, "[libretro-vice]: Got size: %u x %u.\n", retrow, retroh);
 
       CROP_WIDTH =retrow;
@@ -136,13 +136,18 @@ static void update_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      if (strcmp(var.value, "enabled") == 0)
-         vice_statusbar=1;
-      if (strcmp(var.value, "disabled") == 0)
-         vice_statusbar=0;
+		if(retro_ui_finalized){
+    		  if (strcmp(var.value, "enabled") == 0)
+    		     vice_statusbar=1;
+    		  if (strcmp(var.value, "disabled") == 0)
+    		     vice_statusbar=0;
+		}
+		else {
+				if (strcmp(var.value, "enabled") == 0)RETROSTATUS=1;
+				if (strcmp(var.value, "disabled") == 0)RETROSTATUS=0;
+		}
    }
-   else
-      vice_statusbar=0;
+
 
    var.key = "vice_Drive8Type";
    var.value = NULL;
@@ -153,7 +158,10 @@ static void update_variables(void)
 	  int val;
       snprintf(str, sizeof(str), var.value);
       val = strtoul(str, NULL, 0);
-	  set_drive_type(8, val);
+
+	  if(retro_ui_finalized)
+		  set_drive_type(8, val);
+	  else RETRODRVTYPE=val;
    }
 
    var.key = "vice_DriveTrueEmulation";
@@ -161,10 +169,16 @@ static void update_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      if (strcmp(var.value, "enabled") == 0)
-         set_truedrive_emultion(1);
-      if (strcmp(var.value, "disabled") == 0)
-         set_truedrive_emultion(0);
+		if(retro_ui_finalized){
+      		if (strcmp(var.value, "enabled") == 0)
+         		set_truedrive_emultion(1);
+      		if (strcmp(var.value, "disabled") == 0)
+         		set_truedrive_emultion(0);
+		}
+		else  {
+			if (strcmp(var.value, "enabled") == 0)RETROTDE=1;
+			if (strcmp(var.value, "disabled") == 0)RETROTDE=0;
+		}
    }
 
    var.key = "vice_RetroJoy";

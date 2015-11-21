@@ -38,7 +38,7 @@
 
 #include <stdarg.h>
 
-int retro_ui_finalized = 0;
+extern int retro_ui_finalized;
 
 int display_setting(int hwscale, int old_width)
 {
@@ -72,13 +72,14 @@ int get_drive_type(int drive,int val)
 
 void set_drive_type(int drive,int val)
 {
-	   if(retro_ui_finalized== 1)resources_set_int_sprintf("Drive%iType", val, drive);
+	   if(retro_ui_finalized== 1)
+			resources_set_int_sprintf("Drive%iType", val, drive);
 }
 
 void set_truedrive_emultion(int val)
 {
 	   if(retro_ui_finalized== 1)
-		resources_set_int("DriveTrueEmulation", val);
+			resources_set_int("DriveTrueEmulation", val);
 }
 
 #if 0
@@ -209,7 +210,7 @@ void c64ui_set_keyarr(int status)
 int c64ui_init(void)
 {
     machine_ui_done = 1;
-    retro_ui_finalized = 1;
+    // retro_ui_finalized = 1;
     return 0;
 }
 
