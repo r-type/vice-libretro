@@ -144,6 +144,11 @@ else ifeq ($(platform), wii)
    AR = $(DEVKITPPC)/bin/powerpc-eabi-ar$(EXE_EXT)
    COMMONFLAGS += -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float -D__POWERPC__ -D__ppc__ -DWORDS_BIGENDIAN=1
 	STATIC_LINKING = 1
+# emscripten
+else ifeq ($(platform), emscripten)
+	TARGET := $(TARGET_NAME)_libretro_emscripten.bc
+CFLAGS +=  -s USE_ZLIB=1
+   CXXFLAGS += -s USE_ZLIB=1
 else
    CXXFLAGS += -mno-ms-bitfields
    TARGET := $(TARGET_NAME)_libretro.dll

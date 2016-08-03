@@ -41,6 +41,8 @@
 
 #include "libretro-core.h"
 
+extern void Draw_text(char *buffer,int x,int y,unsigned    fgcol,unsigned   int bgcol ,int scalex,int scaley , int max,const char *string,...);
+
 /* ----------------------------------------------------------------- */
 /* static functions/variables */
 

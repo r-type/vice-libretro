@@ -155,7 +155,7 @@ const char *archdep_boot_path(void)
 {  
 #ifdef LIBRETROHACK
 //FIXME
-#if defined(__ANDROID__) || defined(ANDROID)
+#if defined(__ANDROID__) || defined(ANDROID) //|| defined(__EMSCRIPTEN__)
  return "/mnt/sdcard";
 #else
  return retro_system_data_directory;
@@ -175,9 +175,14 @@ const char *archdep_boot_path(void)
 
 const char *archdep_home_path(void)
 {
-#if defined(__ANDROID__) || defined(ANDROID)
+#if defined(__ANDROID__) || defined(ANDROID) //|| defined(__EMSCRIPTEN__)
     return "/mnt/sdcard";
 #else
+
+#if defined(__EMSCRIPTEN__)
+   return "/";
+#endif
+
     char *home;
 
     home = getenv("HOME");

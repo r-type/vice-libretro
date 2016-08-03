@@ -63,6 +63,11 @@
 #define DBG(x)
 #endif
 
+#ifdef __EMSCRIPTEN__
+extern int sound_resources_init(void);
+extern int sound_cmdline_options_init(void);
+#endif
+
 void init_resource_fail(const char *module)
 {
     archdep_startup_log_error("Cannot initialize %s resources.\n",

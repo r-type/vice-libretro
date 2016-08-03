@@ -550,8 +550,8 @@
 #undef HAVE_SND_PCM_AVAIL
 
 /* Define to 1 if you have the `snprintf' function. */
-#undef HAVE_SNPRINTF
-
+//#undef HAVE_SNPRINTF
+#define HAVE_SNPRINTF 1
 /* Define to 1 if you have the `socket' function. */
 #undef HAVE_SOCKET
 
@@ -608,10 +608,11 @@
 #define HAVE_STRING_H 1
 
 /* Define to 1 if you have the `strlcpy' function. */
-#undef HAVE_STRLCPY
-
+//#undef HAVE_STRLCPY
+#define HAVE_STRLCPY 1
 /* Define to 1 if you have the `strlwr' function. */
-#undef HAVE_STRLWR
+//#undef HAVE_STRLWR
+#define HAVE_STRLWR 1
 
 /* Define to 1 if you have the `strncasecmp' function. */
 //#undef HAVE_STRNCASECMP
@@ -711,8 +712,8 @@
 //#undef HAVE_VFORK_H
 #define HAVE_U_SHORT 1
 /* Define to 1 if you have the `vsnprintf' function. */
-#undef HAVE_VSNPRINTF
-
+//#undef HAVE_VSNPRINTF
+#define HAVE_VSNPRINTF 1
 /* Enable VTE support */
 #undef HAVE_VTE
 

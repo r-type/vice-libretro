@@ -22,7 +22,8 @@ char RETRO_DIR[512];
 #include <sys/time.h>
 #include <time.h>
 #endif
-
+extern void mouse_button(int bnumber, int state);
+extern void mouse_move(int x, int y);
 extern void Screen_SetFullUpdate(int scr);
 extern bool Dialog_DoProperty(void);
 extern void validkey(int c64_key,int key_up,uint8 *key_matrix, uint8 *rev_matrix, uint8 *joystick);
@@ -228,7 +229,13 @@ int Retro_PollEvent()
 
    int SAVPAS=PAS;	
    int i;
-
+/*
+LOGI("ICCICI!!!0\n");
+static first=0;
+if(first<10)
+first++;
+else
+*/
    input_poll_cb();
 
    int mouse_l;

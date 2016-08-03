@@ -36,6 +36,7 @@
 #include "uimon.h"
 #include "ui.h"
 
+extern void ui_check_mouse_cursor(void);
 
 static console_t *console_log = NULL;
 

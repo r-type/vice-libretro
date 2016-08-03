@@ -82,6 +82,9 @@
 
 #ifdef __LIBRETRO__
 #include "libretro-core.h"
+#ifdef NO_LIBCO
+extern void maincpu_mainloop_retro(void);
+#endif
 #endif
 
 #ifdef __OS2__
@@ -143,7 +146,7 @@ int main_program(int argc, char **argv)
 
 #ifndef __LIBRETRO__
 //retro fix atexit in other thread
-    if (atexit(main_exit) < 0) {
+    if (atexit(vice_main_exit) < 0) {
         archdep_startup_log_error("atexit failed.\n");
         return -1;
     }
@@ -283,8 +286,15 @@ int main_program(int argc, char **argv)
 #endif
     /* Let's go...  */
     log_message(LOG_DEFAULT, "Main CPU: starting at ($FFFC).");
+#ifdef __LIBRETRO__
+#ifndef NO_LIBCO
     maincpu_mainloop();
+#else
+	resources_save("./vicerc0");
+    maincpu_mainloop_retro();
 
+#endif
+#endif
     log_error(LOG_DEFAULT, "perkele!");
 
     return 0;

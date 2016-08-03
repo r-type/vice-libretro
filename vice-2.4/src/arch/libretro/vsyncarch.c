@@ -34,6 +34,16 @@
 #include "videoarch.h"
 
 #include "libretro-core.h"
+#include <unistd.h>
+#include "video.h"
+
+extern long GetTicks(void);
+extern int resources_get_int(const char *name, int *value_return);
+extern void retro_poll_event(int joyon);
+extern void pause_select(void);
+extern void quick_load();
+extern void quick_option();
+extern void retro_virtualkb(void);
 
 #if defined(__X64SC__)
 //XS:0   YS:16 XI:0 YI:0 W:384 H:272 XSC64
@@ -103,6 +113,8 @@ void vsyncarch_sleep(signed long delay)
 	usleep(delay);
 }
 
+extern int cpustop;
+
 void vsyncarch_presync(void)
 {
 	int v;
@@ -131,6 +143,8 @@ void vsyncarch_presync(void)
 
 #ifndef NO_LIBCO
 	co_switch(mainThread);
+#else
+	cpustop=0;
 #endif
 
 }

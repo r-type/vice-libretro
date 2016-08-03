@@ -29,6 +29,7 @@ REVISION  = 2
 CPPFLAGS += -fpermissive
 
 CXXFLAGS += $(CPPFLAGS)
+CFLAGS   += $(CPPFLAGS)
 
 OBJECTS	+= \
 	$(CORE_DIR)/libretro/core/libretro-core.o \

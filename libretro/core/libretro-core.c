@@ -28,12 +28,15 @@ extern void set_truedrive_emultion(int val);
 
 #include "cmdline.c"
 
+extern int resources_set_int(const char *name, int value);
+
 extern void update_input(void);
 extern void texture_init(void);
 extern void texture_uninit(void);
 extern void Emu_init();
 extern void Emu_uninit();
 extern void input_gui(void);
+extern void vice_main_exit();
 
 const char *retro_save_directory;
 const char *retro_system_directory;
@@ -249,6 +252,8 @@ void Emu_init(){
 void Emu_uninit(){
 #ifdef NO_LIBCO
 	//quit_vice_emu();
+vice_main_exit();
+LOGI("quit vice!\n");
 #endif
    texture_uninit();
 }
@@ -347,7 +352,7 @@ LOGI("PIXEL FORMAT is not supported.\n");
 
 }
 
-extern void main_exit();
+//extern void main_exit();
 void retro_deinit(void)
 {	 
    Emu_uninit(); 
@@ -435,14 +440,33 @@ void retro_run_gui(void)
 }
 #endif
 
+extern void maincpu_mainloop_retro(void);
+int cpustop=1;
 void retro_run(void)
 {
    int x;
 
    bool updated = false;
 
+
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
       update_variables();
+
+#ifdef NO_LIBCO 
+static int firstin=0;
+  
+if(firstin==0){
+	Emu_init();
+	firstin++;
+LOGI("end 1st init emu\n");
+	return;
+}
+//LOGI("run  emu\n");
+
+while(cpustop==1)
+maincpu_mainloop_retro();
+cpustop=1;
+#endif
 
    video_cb(Retro_Screen,retrow,retroh,retrow<<PIXEL_BYTES);
 
@@ -490,7 +514,7 @@ bool retro_load_game(const struct retro_game_info *info)
 #ifndef NO_LIBCO
 	co_switch(emuThread);
 #else
-	Emu_init();
+	//Emu_init();
 #endif
    return true;
 }

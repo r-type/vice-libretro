@@ -36,6 +36,11 @@ int RETROJOY=0,RETROTDE=0,RETROSTATUS=0,RETRODRVTYPE=1542;
 int retro_ui_finalized = 0;
 extern int vice_statusbar;
 
+
+extern int resources_set_int(const char *name, int value);
+extern int resources_set_int_sprintf(const char *name, int value, ...);
+extern int uistatusbar_init_resources(void);
+
 static const cmdline_option_t cmdline_options[] = {
      { NULL }
 };

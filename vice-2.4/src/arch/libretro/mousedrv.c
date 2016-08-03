@@ -38,6 +38,8 @@ int mouse_x, mouse_y;
 int mouse_accelx = 2, mouse_accely = 2;
 static unsigned long mouse_timestamp = 0;
 
+extern void ui_check_mouse_cursor(void);
+
 void mousedrv_mouse_changed(void)
 {
     ui_check_mouse_cursor();

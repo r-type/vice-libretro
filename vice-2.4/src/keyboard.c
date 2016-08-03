@@ -69,6 +69,10 @@
 #define DBG(x)
 #endif
 
+#ifdef __EMSCRIPTEN__
+extern int kbd_arch_get_host_mapping(void);
+#endif
+
 #define KEYBOARD_RAND() lib_unsigned_rand(1, machine_get_cycles_per_frame())
 
 /* Keyboard array.  */

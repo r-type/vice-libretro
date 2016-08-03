@@ -6,6 +6,14 @@
 #include "vkbd_def.h"
 
 extern retro_input_state_t input_state_cb;
+extern void DlgFloppy_Main(void);
+extern void Dialog_OptionDlg(void);
+extern int kbd_handle_keydown(int kcode);
+extern int kbd_handle_keyup(int kcode);
+extern int Retro_PollEvent();
+extern void fliplist_attach_head(unsigned int unit, int direction);
+extern void Draw_text(char *buffer,int x,int y,unsigned    fgcol,unsigned   int bgcol ,int scalex,int scaley , int max,const char *string,...);
+extern void DrawBoxBmp(char  *buffer,int x,int y,int dx,int dy,unsigned    color);
 
 extern int vkx,vky;
 extern int CTRLON;

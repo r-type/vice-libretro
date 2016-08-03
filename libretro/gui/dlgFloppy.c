@@ -16,6 +16,8 @@ const char DlgFloppy_fileid[] = "Hatari dlgFloppy.c : " __DATE__ " " __TIME__;
 #include "sdlgui.h"
 #include "file.h"
 
+extern void fliplist_add_image(unsigned int unit);
+
 #define GET_DRIVE(code) ((code)&0x0F)
 
 #define Log_AlertDlg printf
